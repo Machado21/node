@@ -1,6 +1,9 @@
 import express from "express";
 // const express = require("express");
+var cors = require("cors");
+
 const app = express();
+app.use(cors());
 
 app.listen(3030, function () {
   console.log("3030 vai ");
@@ -11,6 +14,7 @@ app.listen(3030, function () {
 // });
 
 const { MongoClient } = require("mongodb");
+
 // Replace the uri string with your MongoDB deployment's connection string.
 const uri =
   "mongodb://admin:admin@basecluster-shard-00-00.hirbx.mongodb.net:27017,basecluster-shard-00-01.hirbx.mongodb.net:27017,basecluster-shard-00-02.hirbx.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-12fzsk-shard-0&authSource=admin&retryWrites=true&w=majority";
