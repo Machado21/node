@@ -28,13 +28,17 @@ async function run() {
     const database = client.db("sample_mflix");
     const movies = database.collection("movies");
     // Query for a movie that has the title 'Back to the Future'
-    const query = { title: "Back to the Future" };
+    const query = { genres: "Adventure" };
     const movie = await movies.findOne(query);
-
+    const movie2 = await movies.findOne({genres:"Romance"});
+  
+    // console.log("@@@@@@@@@@@@@@@" + moviesAll);
+    const filmes = [movie,movie2];
     console.log(movie);
-
+    // console.log(filmes);
+    // console.log("###########" + typeof(filmes));
     app.get("/", (req, res) => {
-      res.send(movie);
+      res.json(filmes);
     });
   } finally {
     // Ensures that the client will close when you finish/error
