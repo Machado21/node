@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -21,6 +22,30 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+
+//URL of the database
+const DB_CONNECT =
+  process.env.DB_CONNECT ||
+  "mongodb+srv://admin:admin@basecluster.hirbx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const PORT = process.env.PORT || 3030;
+
+//connect to database
+mongoose.connect(DB_CONNECT, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+});
+
+//Test the connection
+let db = mongoose.connection;
+
+db.on("error", function (error) {
+  console.log(error);
+});
+db.once("open", function (callback) {
+  console.log("Connection to Database Successful!");
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
