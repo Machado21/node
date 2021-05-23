@@ -1,14 +1,15 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -16,6 +17,7 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -26,7 +28,7 @@ app.use("/users", usersRouter);
 //URL of the database
 const DB_CONNECT =
   process.env.DB_CONNECT ||
-  "mongodb+srv://admin:admin@basecluster.hirbx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://admin:admin@basecluster.hirbx.mongodb.net/sample_mflix?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3030;
 
 //connect to database
@@ -39,7 +41,6 @@ mongoose.connect(DB_CONNECT, {
 
 //Test the connection
 let db = mongoose.connection;
-
 db.on("error", function (error) {
   console.log(error);
 });
