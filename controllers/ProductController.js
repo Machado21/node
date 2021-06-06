@@ -1,28 +1,29 @@
 const mongoose = require("mongoose");
-const { update } = require("../models/User");
 // const appM = require("../app");
 
-const Users = mongoose.model("users");
-// const Users = appM.instance1.model("users");
+const { update } = require("../models/Product");
+
+const Products = mongoose.model("products");
+// const Products = appM.instace2.model("products");
 
 module.exports = {
   //show all created articles
   async index(req, res) {
-    const data = await Users.find();
+    const data = await Products.find();
     return res.json(data);
   },
   //show a particular article
   async show(req, res) {
-    const data = await Users.findById(req.params.id);
+    const data = await Products.findById(req.params.id);
     return res.json(data);
   },
   //Create and store an article
   async store(req, res) {
-    Users.create(req.body).then((result) => {
+    Products.create(req.body).then((result) => {
       return res
         .json({
           success: true,
-          message: "Article created",
+          message: "Product created",
         })
         .catch((err) => {
           return res.json({
@@ -34,8 +35,8 @@ module.exports = {
   },
   //Update existing blog
   async update(req, res) {
-    await Users.findById(req.params.id).then((result) => {
-      Users.findByIdAndUpdate(req.params.id, req.body, {
+    await Products.findById(req.params.id).then((result) => {
+      Products.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       })
         .then((result) => {
@@ -52,7 +53,7 @@ module.exports = {
   },
   //Delete category
   async destroy(req, res) {
-    await Users.findByIdAndDelete(req.params.id)
+    await Products.findByIdAndDelete(req.params.id)
       .then((result) => {
         return res.json({
           success: true,
