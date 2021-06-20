@@ -12,6 +12,8 @@ const usersRouter = require("./routes/users");
 const productsRouter = require("./routes/products");
 const app = express();
 //Começa aqui
+const connect = require("./controllers/ProductConnection");
+// console.log(conect);
 // var Mongoose = require("mongoose").Mongoose;
 // var instance1 = new Mongoose();
 // var instance2 = new Mongoose();
@@ -30,16 +32,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+//COMEÇA AQUI
+//TERMINA AQUI
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
+//COMEÇA aqui
+//TERMINA AQUI
+/* 
 //URL of the database
 const DB_CONNECT =
   process.env.DB_CONNECT ||
   "mongodb+srv://admin:admin@basecluster.hirbx.mongodb.net/sample_mflix?retryWrites=true&w=majority";
 //URL segunda database connectionconst
-DB_CONNECT2 =
+const DB_CONNECT2 =
   process.env.DB_CONNECT ||
   "mongodb+srv://admin:admin@basecluster.hirbx.mongodb.net/sample_supplies?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3030;
@@ -52,6 +60,10 @@ mongoose.connect(DB_CONNECT, {
   useCreateIndex: true,
 });
 
+//COMEÇA AQUI
+
+//TERMINAR AQUI
+
 // instance2.connect(DB_CONNECT2, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
@@ -61,11 +73,11 @@ mongoose.connect(DB_CONNECT, {
 
 //Test the connection
 let db = mongoose.connection;
-
-db.on("error", function (error) {
+*/
+connect.on("error", function (error) {
   console.log(error);
 });
-db.once("open", function (callback) {
+connect.once("open", function (callback) {
   console.log("Connection to Database Successful!");
 });
 

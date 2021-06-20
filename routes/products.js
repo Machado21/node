@@ -6,7 +6,7 @@ var router = express.Router();
 //   res.send("respond with a resource");
 // });
 
-const ProductController = require("../controllers/ProductController");
+const ProductController = require("../controllers/ProductController.js");
 
 //User Routes
 router.get("/", ProductController.index);

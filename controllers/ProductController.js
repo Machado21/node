@@ -1,9 +1,16 @@
 const mongoose = require("mongoose");
 // const appM = require("../app");
 
-const { update } = require("../models/Product");
+// const { update } = require("../models/Product");
+const connection = require("./ProductConnection");
 
-const Products = mongoose.model("products");
+// console.log(connection);
+// console.log(connection);
+// console.log("##############################");
+const Products = connection.models["Product"];
+// const Products = connection.models["Product"];
+// console.log(typeof Products);
+// const Products = mongoose.model("products");
 // const Products = appM.instace2.model("products");
 
 module.exports = {
