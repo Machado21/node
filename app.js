@@ -99,3 +99,4 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 // module.exports = instance1;
 // module.exports = instance2;
+//https://dev.to/ziishaned/open-multiple-mongodb-connection-in-express-js-app-36be
