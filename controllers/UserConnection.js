@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const productSchema = require("../models/productSchema");
+const userSchema = require("../models/userSchema");
 
 const options = {
   useNewUrlParser: true,
@@ -17,8 +17,8 @@ const DB_CONNECT2 =
   "mongodb+srv://admin:admin@basecluster.hirbx.mongodb.net/sample_supplies?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3030;
 
-const conn = mongoose.createConnection(DB_CONNECT2, options); //Se der errado olhar esta linha
-const ProductModel = conn.model("Product", productSchema);
+const conn = mongoose.createConnection(DB_CONNECT, options); //Se der errado olhar esta linha
+const UserModel = conn.model("User", userSchema);
 
 module.exports = conn;
 //module.exports = UserModel;

@@ -12,7 +12,8 @@ const usersRouter = require("./routes/users");
 const productsRouter = require("./routes/products");
 const app = express();
 //Começa aqui
-const connect = require("./controllers/ProductConnection");
+const connectProduct = require("./controllers/ProductConnection");
+const connectUser = require("./controllers/UserConnection");
 // console.log(conect);
 // var Mongoose = require("mongoose").Mongoose;
 // var instance1 = new Mongoose();
@@ -74,13 +75,19 @@ mongoose.connect(DB_CONNECT, {
 //Test the connection
 let db = mongoose.connection;
 */
-connect.on("error", function (error) {
+connectProduct.on("error", function (error) {
   console.log(error);
 });
-connect.once("open", function (callback) {
+connectProduct.once("open", function (callback) {
   console.log("Connection to Database Successful!");
 });
-
+//Segunda collection
+connectUser.on("error", function (error) {
+  console.log(error);
+});
+connectUser.once("open", function (callback) {
+  console.log("Connection to Database Successful!");
+});
 //Segunda database
 // let db2 = instance2.connection;
 

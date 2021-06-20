@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
-const { update } = require("../models/User");
+// const { update } = require("../models/User");
 // const appM = require("../app");
+const connection = require("./UserConnection");
 
-const Users = mongoose.model("users");
+const Users = connection.models["User"];
+// const Users = mongoose.model("users");
 // const Users = appM.instance1.model("users");
 
 module.exports = {
