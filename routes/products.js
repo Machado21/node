@@ -8,7 +8,7 @@ var router = express.Router();
 
 const ProductController = require("../controllers/ProductController.js");
 
-//User Routes
+//Product Routes
 router.get("/", ProductController.index);
 router.get("/:id", ProductController.show);
 router.post("/", ProductController.store);
