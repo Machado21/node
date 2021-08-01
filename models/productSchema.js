@@ -20,7 +20,7 @@ const productSchema = new Schema(
     //   required: [true, "Categoria do produto é obrigatória"],
     // },
   },
-  { collection: "sales" }
+  { collection: "produtos" }
 );
 
 module.exports = productSchema;

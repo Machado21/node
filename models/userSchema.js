@@ -16,7 +16,7 @@ const userSchema = new Schema(
       required: [true, "Name of author is required"],
     },
   },
-  { collection: "users" }
+  { collection: "usuarios" }
 );
 
 module.exports = userSchema;
