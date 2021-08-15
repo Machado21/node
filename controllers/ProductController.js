@@ -27,28 +27,15 @@ module.exports = {
   //Create and store an article
   async store(req, res) {
     console.log(req.body);
-    var produto = {
-      nome: "",
-      valor: "",
-      categoria: "",
-    };
+
     //req.body e produto são objetos javascript, portanto não podem ser iterados como um vetor
     //Assim tive de iterar por um e pegar as propriedades do outro
     //Solução para mais valores:
     //(1) iterar em um objeto com for
     //(2) passar para um vetor todos os valores
     //(3) iterar no OUTRO objeto e atribuir a partir de um índice do vetor copiado anteriormente
-    var i = 0;
-    for (var key in req.body) {
-      if (req.body.hasOwnProperty(key)) {
-        if (i === 0) produto.nome = req.body[key];
-        else if (i === 1) produto.valor = req.body[key];
-        else if (i === 2) produto.categoria = req.body[key];
-      }
-      i++;
-    }
 
-    Products.create(produto).then((result) => {
+    Products.create(req.body).then((result) => {
       console.log(result);
       // return res
       //   .json({

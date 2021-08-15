@@ -3,22 +3,26 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema(
   {
-    nome: {
+    name: {
       type: String,
       required: [true, "Nome do produto é obrigatório"],
     },
-    valor: {
+    price: {
       type: Number,
       required: [true, "Valor do produto é obrigatório"],
     },
-    categoria: {
+    qty: {
       type: String,
-      required: [true, "Categoria do produto é obrigatória"],
+      required: [true, "Quantidade do produto é obrigatória"],
     },
-    // purchaseMethod: {
-    //   type: String,
-    //   required: [true, "Categoria do produto é obrigatória"],
-    // },
+    brand: {
+      type: String,
+      required: [true, "Marca o produto é obrigatória"],
+    },
+    tags: {
+      type: [String],
+      required: [true, "Deve conter no mínimo 1 categoria"],
+    },
   },
   { collection: "produtos" }
 );
