@@ -17,11 +17,15 @@ const productSchema = new Schema(
     },
     brand: {
       type: String,
-      required: [true, "Marca o produto é obrigatória"],
+      required: [true, "Marca do produto é obrigatória"],
     },
     tags: {
       type: [String],
       required: [true, "Deve conter no mínimo 1 categoria"],
+    },
+    img: {
+      type: [Buffer],
+      required: [true, "Deve conter no mínimo 1 imagem"],
     },
   },
   { collection: "produtos" }
