@@ -23,6 +23,9 @@ const productSchema = new Schema(
       type: [String],
       required: [true, "Deve conter no mínimo 1 categoria"],
     },
+    // img: {
+    //   type: Buffer,
+    // },
   },
   { collection: "produtos" }
 );
