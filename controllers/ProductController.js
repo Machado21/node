@@ -1,3 +1,4 @@
+const multer = require("multer");
 const mongoose = require("mongoose");
 // const appM = require("../app");
 
@@ -26,7 +27,14 @@ module.exports = {
   },
   //Create and store an article
   async store(req, res) {
+    let produtoNovo = req.body;
+    produtoNovo["img"] = req.file.buffer;
     console.log(req.body);
+    console.log("Req file ");
+    console.log(req.file);
+    // let produtoNovo = req.body;
+    // produtoNovo["img"] = req.file;
+    // console.log(req.file.buffer);
 
     //req.body e produto são objetos javascript, portanto não podem ser iterados como um vetor
     //Assim tive de iterar por um e pegar as propriedades do outro
@@ -35,7 +43,8 @@ module.exports = {
     //(2) passar para um vetor todos os valores
     //(3) iterar no OUTRO objeto e atribuir a partir de um índice do vetor copiado anteriormente
 
-    Products.create(req.body).then((result) => {
+    Products.create(produtoNovo).then((result) => {
+      // console.log(req.body);
       console.log(result);
       // return res
       //   .json({
