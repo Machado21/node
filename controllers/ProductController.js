@@ -28,10 +28,10 @@ module.exports = {
   //Create and store an article
   async store(req, res) {
     let produtoNovo = req.body;
-    produtoNovo["img"] = req.file.buffer;
+    //produtoNovo["img"] = req.file.buffer;
     console.log(req.body);
-    console.log("Req file ");
-    console.log(req.file);
+    //console.log("Req file ");
+    //console.log(req.file);
     // let produtoNovo = req.body;
     // produtoNovo["img"] = req.file;
     // console.log(req.file.buffer);
