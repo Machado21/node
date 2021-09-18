@@ -59,6 +59,15 @@ module.exports = {
       //   });
     });
   },
+
+  async upload(req, res) {
+    let produtoNovo = req.body;
+    console.log(req.body);
+
+    Products.create(produtoNovo).then((result) => {
+      console.log(result);
+    });
+  },
   //Update existing blog
   async update(req, res) {
     await Products.findById(req.params.id).then((result) => {
