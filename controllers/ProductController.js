@@ -1,7 +1,9 @@
 const multer = require("multer");
 const mongoose = require("mongoose");
-const multiparty = require('multiparty');
-
+const multiparty = require("multiparty");
+const uploadFile = require("./ImageController");
+const fs = require("fs");
+const fileType = require("file-type");
 // const appM = require("../app");
 
 // const { update } = require("../models/Product");
@@ -30,6 +32,7 @@ module.exports = {
   //Create and store an article
   async store(req, res) {
     let produtoNovo = req.body;
+
     //produtoNovo["img"] = req.file.buffer;
     console.log(req.body);
     //console.log("Req file ");
@@ -37,7 +40,7 @@ module.exports = {
     // let produtoNovo = req.body;
     // produtoNovo["img"] = req.file;
     // console.log(req.file.buffer);
-    
+
     //req.body e produto são objetos javascript, portanto não podem ser iterados como um vetor
     //Assim tive de iterar por um e pegar as propriedades do outro
     //Solução para mais valores:
@@ -63,23 +66,39 @@ module.exports = {
   },
 
   async upload(req, res) {
-    let produtoNovo = req.body;
-    console.log(req.body);
+    console.log("ENTROU UPLOAD");
+    // let produtoNovo = req.body;
+    // console.log(req.body);
 
     const form = new multiparty.Form();
-    form.parse(request, async (error, fields, files) => {
+    form.parse(req, async (error, fields, files) => {
+      // console.log(req);
+      console.log(files);
+      console.log(fields);
       if (error) {
-        return response.status(500).send(error);
-      };
+        return res.status(500).send(error);
+      }
       try {
-        const path = files.file[0].path;
+        const path = files.img[0].path;
         const buffer = fs.readFileSync(path);
-        const type = await FileType.fromBuffer(buffer);
+        const type = await fileType.fromBuffer(buffer);
         const fileName = `bucketFolder/${Date.now().toString()}`;
         const data = await uploadFile(buffer, fileName, type);
-        return response.status(200).send(data);
+        var campos = new Object();
+        for (var [key, value] of Object.entries(fields)) {
+          if (key === "tags") campos[key] = value;
+          else campos[key] = value.toString();
+        }
+        campos["img"] = "https://s3.amazonaws.com/rodrigues.bucket/" + fileName + "." + type.ext;
+        console.log(campos);
+        Products.create(campos).then((result) => {
+          console.log(result);
+        });
+
+        return res.status(200).send(data);
       } catch (err) {
-        return response.status(500).send(err);
+        console.log(err);
+        return res.status(500).send(err);
       }
     });
 

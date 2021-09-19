@@ -12,7 +12,7 @@ const ProductController = require("../controllers/ProductController.js");
 router.get("/", ProductController.index);
 router.get("/:id", ProductController.show);
 router.post("/", ProductController.store);
-router.post("/image", ProductController.upload);
+router.post("/images", ProductController.upload);
 router.put("/:id", ProductController.update);
 router.delete("/:id", ProductController.destroy);
 module.exports = router;
