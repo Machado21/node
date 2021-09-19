@@ -1,5 +1,7 @@
 const multer = require("multer");
 const mongoose = require("mongoose");
+const multiparty = require('multiparty');
+
 // const appM = require("../app");
 
 // const { update } = require("../models/Product");
@@ -35,7 +37,7 @@ module.exports = {
     // let produtoNovo = req.body;
     // produtoNovo["img"] = req.file;
     // console.log(req.file.buffer);
-
+    
     //req.body e produto são objetos javascript, portanto não podem ser iterados como um vetor
     //Assim tive de iterar por um e pegar as propriedades do outro
     //Solução para mais valores:
@@ -64,9 +66,26 @@ module.exports = {
     let produtoNovo = req.body;
     console.log(req.body);
 
-    Products.create(produtoNovo).then((result) => {
-      console.log(result);
+    const form = new multiparty.Form();
+    form.parse(request, async (error, fields, files) => {
+      if (error) {
+        return response.status(500).send(error);
+      };
+      try {
+        const path = files.file[0].path;
+        const buffer = fs.readFileSync(path);
+        const type = await FileType.fromBuffer(buffer);
+        const fileName = `bucketFolder/${Date.now().toString()}`;
+        const data = await uploadFile(buffer, fileName, type);
+        return response.status(200).send(data);
+      } catch (err) {
+        return response.status(500).send(err);
+      }
     });
+
+    // Products.create(produtoNovo).then((result) => {
+    //   console.log(result);
+    // });
   },
   //Update existing blog
   async update(req, res) {
