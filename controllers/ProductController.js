@@ -29,6 +29,10 @@ module.exports = {
     const data = await Products.findById(req.params.id);
     return res.json(data);
   },
+  async showTags(req, res) {
+    const data = await Products.distinct("tags");
+    return res.json(data);
+  },
   //Create and store an article
   async store(req, res) {
     let produtoNovo = req.body;

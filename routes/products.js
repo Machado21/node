@@ -10,6 +10,7 @@ const ProductController = require("../controllers/ProductController.js");
 
 //Product Routes
 router.get("/", ProductController.index);
+router.get("/tags", ProductController.showTags);
 router.get("/:id", ProductController.show);
 router.post("/", ProductController.store);
 router.post("/images", ProductController.upload);
