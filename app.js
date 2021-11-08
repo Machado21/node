@@ -37,6 +37,8 @@ connectProduct.on("error", function (error) {
 });
 connectProduct.once("open", function (callback) {
   console.log("Connection to Database Successful!");
+  var a;
+  a = 2 + 3;
 });
 //Segunda collection
 connectUser.on("error", function (error) {
