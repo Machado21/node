@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "pm2-start": "pm2 start ./bin/www",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
