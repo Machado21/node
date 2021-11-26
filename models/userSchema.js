@@ -5,15 +5,22 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, "Title of blog is required"],
+      required: [true, "Nome do usuário é obrigatório!"],
     },
     email: {
       type: String,
-      required: [true, "Content of the blog is required"],
+      required: [true, "E-mail do usuário é obrigatório!"],
     },
     password: {
       type: String,
-      required: [true, "Name of author is required"],
+      required: [true, "Senha do usuário é obrigatório!"],
+    },
+    image: {
+      type: String,
+    },
+    tags: {
+      type: Schema.Types.Mixed,
+      required: [true, "Deve conter no mínimo 1 categoria"],
     },
   },
   { collection: "usuarios" }
