@@ -4,6 +4,8 @@ const multiparty = require("multiparty");
 const uploadFile = require("./ImageController");
 const fs = require("fs");
 const fileType = require("file-type");
+require("dotenv").config();
+
 // const appM = require("../app");
 
 // const { update } = require("../models/Product");
@@ -87,7 +89,7 @@ module.exports = {
         const buffer = fs.readFileSync(path);
         const type = await fileType.fromBuffer(buffer);
         const fileName = `bucketFolder/${Date.now().toString()}`;
-        const data = await uploadFile(buffer, fileName, type);
+        const data = await uploadFile(buffer, fileName, type, process.env.S3_BUCKET);
         var campos = new Object();
         for (var [key, value] of Object.entries(fields)) {
           if (key === "tags") campos[key] = value;

@@ -1,7 +1,7 @@
-require("dotenv").config();
+// require("dotenv").config();
 const AWS = require("aws-sdk");
 
-const uploadFile = (buffer, name, type) => {
+const uploadFile = (buffer, name, type, bucket) => {
   AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -12,7 +12,7 @@ const uploadFile = (buffer, name, type) => {
   const params = {
     ACL: "public-read",
     Body: buffer,
-    Bucket: process.env.S3_BUCKET,
+    Bucket: bucket,
     ContentType: type.mime,
     Key: `${name}.${type.ext}`,
   };

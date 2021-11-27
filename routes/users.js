@@ -12,6 +12,7 @@ const UserController = require("../controllers/UserController");
 router.get("/", UserController.index);
 router.get("/:id", UserController.show);
 router.post("/", UserController.store);
+router.post("/images", UserController.upload);
 router.put("/:id", UserController.update);
 router.delete("/:id", UserController.destroy);
 module.exports = router;

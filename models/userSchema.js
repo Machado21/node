@@ -18,9 +18,8 @@ const userSchema = new Schema(
     image: {
       type: String,
     },
-    tags: {
+    cart: {
       type: Schema.Types.Mixed,
-      required: [true, "Deve conter no mínimo 1 categoria"],
     },
   },
   { collection: "usuarios" }

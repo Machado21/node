@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 // const { update } = require("../models/User");
 // const appM = require("../app");
 const connection = require("./UserConnection");
-
+const multiparty = require("multiparty");
+require("dotenv").config();
+const fs = require("fs");
+const fileType = require("file-type");
+const uploadFile = require("./ImageController");
 const Users = connection.models["User"];
 // const Users = mongoose.model("users");
 // const Users = appM.instance1.model("users");
@@ -33,6 +37,46 @@ module.exports = {
           });
         });
     });
+  },
+  async upload(req, res) {
+    console.log("ENTROU UPLOAD");
+    // let produtoNovo = req.body;
+    // console.log(req.body);
+
+    const form = new multiparty.Form();
+    form.parse(req, async (error, fields, files) => {
+      // console.log(req);
+      console.log(files);
+      console.log(fields);
+      if (error) {
+        return res.status(500).send(error);
+      }
+      try {
+        const path = files.image[0].path;
+        const buffer = fs.readFileSync(path);
+        const type = await fileType.fromBuffer(buffer);
+        const fileName = `bucketFolder/${Date.now().toString()}`;
+        const data = await uploadFile(buffer, fileName, type, process.env.S3_BUCKET2);
+        var campos = new Object();
+        for (var [key, value] of Object.entries(fields)) {
+          campos[key] = value.toString();
+        }
+        campos["image"] = "https://s3.amazonaws.com/rodrigues.user.bucket/" + fileName + "." + type.ext;
+        console.log(campos);
+        Users.create(campos).then((result) => {
+          console.log(result);
+        });
+
+        return res.status(200).send(data);
+      } catch (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+    });
+
+    // Products.create(produtoNovo).then((result) => {
+    //   console.log(result);
+    // });
   },
   //Update existing blog
   async update(req, res) {
