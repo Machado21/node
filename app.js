@@ -6,6 +6,9 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const cors = require("cors");
 // require("dotenv").config();
+var jwt = require("express-jwt");
+var jwks = require("jwks-rsa");
+const jwtAuthz = require("express-jwt-authz");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -15,6 +18,23 @@ const app = express();
 const connectProduct = require("./controllers/ProductConnection");
 const connectUser = require("./controllers/UserConnection");
 
+// JWT Setup
+var jwtCheck = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://rodriguesdev.us.auth0.com/.well-known/jwks.json",
+  }),
+  audience: "https://authBack/api",
+  issuer: "https://rodriguesdev.us.auth0.com/",
+  algorithms: ["RS256"],
+});
+
+// app.use(jwtCheck);
+var optionsJWT = { customScopeKey: "permissions" }; // This is necessary to support the direct-user permissions
+const checkScopes = jwtAuthz(["read:protected"]);
+// END JWT Setup
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -27,7 +47,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/users", jwtCheck, checkScopes, usersRouter);
 app.use("/products", productsRouter);
 
 // console.log(typeof process.env.S3_BUCKET, process.env.S3_BUCKET); // object { BASIC : 'basic' }
