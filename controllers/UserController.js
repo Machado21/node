@@ -55,21 +55,21 @@ module.exports = {
         const path = files.image[0].path;
         const buffer = fs.readFileSync(path);
         const type = await fileType.fromBuffer(buffer);
-        const fileName = `bucketFolder/${Date.now().toString()}`;
-        const data = await uploadFile(buffer, fileName, type, process.env.S3_BUCKET2);
+        const fileName = `images/${Date.now().toString()}`;
+        const fileURL = await uploadFile.uploadFileFirebase(buffer, fileName, type, process.env.FB_BCKT_PRO);
         var campos = new Object();
         for (var [key, value] of Object.entries(fields)) {
           campos[key] = value.toString();
         }
-        campos["image"] = "https://s3.amazonaws.com/rodrigues.user.bucket/" + fileName + "." + type.ext;
+        campos["image"] = fileURL;
+        // campos["image"] = "https://s3.amazonaws.com/rodrigues.user.bucket/" + fileName + "." + type.ext;
         console.log(campos);
         Users.create(campos).then((result) => {
           console.log(result);
         });
 
-        return res.status(200).send(data);
+        return res.status(200).send(fileURL);
       } catch (err) {
-        
         console.log(err);
         return res.status(500).send(err);
       }

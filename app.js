@@ -33,7 +33,7 @@ var jwtCheck = jwt({
 
 // app.use(jwtCheck);
 var optionsJWT = { customScopeKey: "permissions" }; // This is necessary to support the direct-user permissions
-const checkScopes = jwtAuthz(["read:protected"]);
+const checkScopes = jwtAuthz(["read:protected read:users"]);
 // END JWT Setup
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

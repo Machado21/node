@@ -5,7 +5,6 @@ const uploadFile = require("./ImageController");
 const fs = require("fs");
 const fileType = require("file-type");
 require("dotenv").config();
-
 // const appM = require("../app");
 
 // const { update } = require("../models/Product");
@@ -88,20 +87,22 @@ module.exports = {
         const path = files.img[0].path;
         const buffer = fs.readFileSync(path);
         const type = await fileType.fromBuffer(buffer);
-        const fileName = `bucketFolder/${Date.now().toString()}`;
-        const data = await uploadFile(buffer, fileName, type, process.env.S3_BUCKET);
+        const fileName = `images/${Date.now().toString()}`;
+        const fileURL = await uploadFile.uploadFileFirebase(buffer, fileName, type, process.env.FB_BCKT_PRO);
+
         var campos = new Object();
         for (var [key, value] of Object.entries(fields)) {
           if (key === "tags") campos[key] = value;
           else campos[key] = value.toString();
         }
-        campos["img"] = "https://s3.amazonaws.com/rodrigues.bucket/" + fileName + "." + type.ext;
+        campos["img"] = fileURL;
+        // campos["img"] = "https://s3.amazonaws.com/rodrigues.bucket/" + fileName + "." + type.ext;
         console.log(campos);
         Products.create(campos).then((result) => {
           console.log(result);
         });
 
-        return res.status(200).send(data);
+        return res.status(200).send(fileURL);
       } catch (err) {
         console.log(err);
         return res.status(500).send(err);
